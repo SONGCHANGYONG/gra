@@ -1,9 +1,8 @@
-package jfbc.basic.mariadb;
+package jdbc.basic.mariadb;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.text.MessageFormat; 
+import java.sql.SQLException; 
 
 public class PersonConnection {
 
@@ -18,13 +17,25 @@ public class PersonConnection {
 			//연결할 주소 : uurll, db 사용사능한 유저 :userId, dbuser인지 확인 : userPassword
 			//jdbc:DBMS이름 : 네트워크 프로토콜
 			//예) jdbc:mysql : mysql 데이터베이스를 jdbc방식으로 연결한다.
-			//jdbc:mysql://네트워크주소:포트번호/작업할데이터베이스명
-			String url = "jdbc:mariadb://localhost:3306/springs";
-		
+			//jdbc:mysql://네트워크주소:포트번호/작업할 데이터베이스명
+			String url = "jdbc:mariadb://localhost:3306/javastudy";
 			String userID = "root"; //데이터베이스 id
 			String userPassword = "mariadb"; //db계정 패스워드
+			String dbtype = "mariadb";
+			String ip = "localhost";
 			
-		   
+		    String jdbcMultiStr =
+		    		"""
+		    		jdbc:%s://%s:%s/%s
+		    		""".formatted(
+		    				"dbtype",
+		    				"ip",
+		    				"3306",
+		    				"javastudy").replaceAll("(\r|\n|\r\n|\n\r)","");
+		    
+		    System.out.println("same ? " +jdbcMultiStr.equals(url));
+			
+			
 			//DriverManager 클래스는 데이터베이스서버에서 접속하기 위한 기능을 가진 클래스
 			//getConnection() :DriverManager에서 db서버에 연결해서 앞으로 작업할 Connection 객체를 반환한다.
 			//내부에 복작한 작업은 대신해주므로 우리는 연결 객체만 신경쓰면된다.

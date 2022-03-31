@@ -42,12 +42,15 @@ public class TableCreating {
 	    	StringBuilder sb = new StringBuilder();
 	    	String sql; //만들어진 sb의 내용을 문자열로 만들어 저장할 변수
 	    	//sales 테이블이 없으면 (=if not exsrs sales) 테이블은 말듫어라(=CREATE table)
-	    	sql = sb.append("CREATE table if not exists sales(")
-	    			.append("number varchar(10),")
-	    			.append("slaes int,")
-	    			.append("month int")
-	    			.append(");")
-	    			.toString();
+			sql = sb.append("CREATE table if not exists GreenBook(")
+					.append("boNo int primary key AUTO_INCREMENT not null,")
+					.append("writer varchar(20) not null,")
+					.append("password varchar(20) not null,")
+					.append("email varchar(80),")
+					.append("homepage varchar(80),")
+					.append("content varchar(2000) not null,")
+					.append("writeDate datetime not null")
+					.append(");").toString();
 	    	// stmt오 db서버로 보낼 쿼리만들기
 	    	
 		// 5. 준비된 커뤼를 서버로 보내어 실행

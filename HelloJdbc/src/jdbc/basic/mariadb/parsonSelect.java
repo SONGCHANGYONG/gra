@@ -1,4 +1,4 @@
-package jfbc.basic.mariadb;
+package jdbc.basic.mariadb;
 
 import java.sql.*;
 
@@ -11,19 +11,30 @@ public class parsonSelect {
 	    ResultSet rs = null; // select
 		
 		try {
-			//필요할 때 클레스를 불러오는 메소드
+			//필요할때 클레스를 불러오는 메소드
 			Class.forName("org.mariadb.jdbc.Driver");
 			
-			//연결할 주소 : url, db 사용가능한 유저 :userId, dbuser인지 확인 : userPassword
+			//연결할 주소 : uurll, db 사용사능한 유저 :userId, dbuser인지 확인 : userPassword
 			//jdbc:DBMS이름 : 네트워크 프로토콜
 			//예) jdbc:mysql : mysql 데이터베이스를 jdbc방식으로 연결한다.
 			//jdbc:mysql://네트워크주소:포트번호/작업할데이터베이스명
-			String url = "jdbc:mariadb://localhost:3306/springs";
-		
+			String url = "jdbc:mariadb://localhost:3306/javastudy";
 			String userID = "root"; //데이터베이스 id
 			String userPassword = "mariadb"; //db계정 패스워드
+			String dbtype = "mariadb";
+			String ip = "localhost";
 			
-		   
+		    String jdbcMultiStr =
+		    		"""
+		    		jdbc:%s://%s:%s/%s
+		    		""".formatted(
+		    				"mariadb",
+		    				"localhost",
+		    				"3306",
+		    				"javastudy").replaceAll("(\r|\n|\r\n|\n\r)","");
+
+			
+			
 			//DriverManager 클래스는 데이터베이스서버에서 접속하기 위한 기능을 가진 클래스
 			//getConnection() :DriverManager에서 db서버에 연결해서 앞으로 작업할 Connection 객체를 반환한다.
 			//내부에 복작한 작업은 대신해주므로 우리는 연결 객체만 신경쓰면된다.
@@ -32,9 +43,11 @@ public class parsonSelect {
 			//잘연결 됨
 			System.out.println("데이터베이스에 연결 성공");
 			
-			/////////////////////////////////////////////////////////////////////////////////////////
-			//sql select 연습
-			String selectSql = "SELECT name, age, birth FROM parson";
+	
+			//////////////////////////////////////////////////////////////////////////////////////////
+			// sql데이터 수정 (=select)
+
+			String selectSql = "SELECT name,dept_cd,phone,address FROM user";
 			
 			// 일반적인 결과셋을 리턴하는 select구문에 많이 사용하는 빈트럭같은 객체
 			stmt = conn.createStatement(); // 빈트럭을 준비해라
@@ -47,13 +60,16 @@ public class parsonSelect {
 			//한자료씩 처리하다가 더 이상 자료가 없으면 false(=자료없음)로 리턴
 			//다음자료가 있는가 rs.next() : 있으면 true 없으면 false
 			while (rs.next()) {
+				//전부 String으로 자동 형변환됨
 				String name = rs.getString(1); // 가져올 데이터 컬럼이름(sql관점)
-				String age = rs.getString(2);
-				String birth = rs.getString(3);
+				String dept_cd = rs.getString(2);
+				String phone = rs.getString(3);
+				String address = rs.getString(4);
 				
 				System.out.println("이름 : " + name);
-				System.out.println("나이 : " + age);
-				System.out.println("생년월일 : " + birth);
+				System.out.println("부서코드 : " + dept_cd);
+				System.out.println("전화번호 : " + phone);
+				System.out.println("주소 : " + address);
 				System.out.println("");
 			}
 				
